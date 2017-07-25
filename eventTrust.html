@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件委托举例</title>
+</head>
+<body>
+<ul id="parent">
+    <li id="shopping">购物</li>
+    <li id="sports">运动</li>
+    <li id="fruits">水果</li>
+</ul>
+<script>
+   window.onload=function () {
+       document.getElementById("parent").addEventListener("click",function (event) {
+           switch (event.target.id){
+               case "shopping":
+                   alert("this is shopping");
+                   break;
+               case "sports":
+                   alert("this is sports");
+                   break;
+               case "fruits":
+                   alert("this is fruits");
+               default:
+                   break;
+           }
+       })
+   }
+</script>
+</body>
+</html>
