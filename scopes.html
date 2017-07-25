@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>js作用范围</title>
+    <style>
+        .div_1 {
+            height: 300px;
+            width: 300px;
+            background-color: aqua;
+        }
+
+        .div_2 {
+            position: relative;
+            left: 50px;
+            top: 50px;
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+        }
+
+        .div_3 {
+            position: relative;
+            left: 50px;
+            top: 50px;
+            height: 100px;
+            width: 100px;
+            background-color: cadetblue;
+        }
+
+        .div_4 {
+            position: absolute;
+            top: 300px;
+            height: 100px;
+            width: 100px;
+            background-color: cadetblue;
+        }
+
+        .container{
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="div_1" id="inner">
+    <div class="div_2">
+        <div class="div_3">
+            这是最内层的div
+        </div>
+    </div>
+</div>
+
+<div class="container" >
+    <div class="div_1" id="outer">
+        <div class="div_2">
+            <div class="div_4">
+                这是最内层的div
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var inner=document.getElementById("inner").addEventListener("click",function () {
+        alert("触发最外层div的事件");
+    });
+
+    var outer=document.getElementById("outer").addEventListener("click",function () {
+        alert("触发最外层div的事件");
+    })
+</script>
+</body>
+</html>
