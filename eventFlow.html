@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件流</title>
+    <style>
+        .div_1 {
+            height: 300px;
+            width: 300px;
+            background-color: aqua;
+        }
+
+        .div_2 {
+            position: relative;
+            left: 50px;
+            top: 50px;
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+        }
+
+        .div_3 {
+            position: relative;
+            left: 50px;
+            top: 50px;
+            height: 100px;
+            width: 100px;
+            background-color: cadetblue;
+        }
+
+        .test{
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="div_1"  id="outer">
+    <div class="div_2">
+        <div class="div_3" id="inner">
+            这是最内层的div
+        </div>
+    </div>
+</div>
+
+<div class="test">
+    检测事件的定义顺序与执行顺序之间的关系
+    <button id="test">
+        测试执行顺序
+    </button>
+</div>
+
+<script>
+    window.onload=function () {
+        var outer=document.getElementById("outer");
+        var inner = document.getElementById("inner");
+       /* inner.addEventListener("click",function(){
+              alert("捕获流");
+        },true);   //捕获
+        window.addEventListener("click",function () {
+            alert("window");
+        },true);
+
+        document.addEventListener("click",function () {
+            alert("document");
+        },true);
+
+        document.body.addEventListener("click",function () {
+            alert("body");
+        },true);
+
+        outer.addEventListener("click", function () {
+            alert("parent");
+        },true);*/
+
+
+        inner.addEventListener("click",function(){
+         alert("冒泡流");
+         },false);  //冒泡
+        window.addEventListener("click",function () {
+            alert("window");
+        },false);
+
+        document.addEventListener("click",function () {
+            alert("document");
+        },false);
+
+        document.body.addEventListener("click",function () {
+            alert("body");
+        },false);
+
+        outer.addEventListener("click", function () {
+            alert("parent");
+        },false);
+
+        var test=document.getElementById("test");
+        test.addEventListener("click",function () {
+            alert("在button上定义的第一个处理函数");
+        });
+        test.addEventListener("click",function () {
+            alert("在button上定义的第二个处理函数");
+        });
+
+    }
+
+</script>
+
+</body>
+</html>
