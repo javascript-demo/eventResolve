@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>js事件处理程序</title>
+</head>
+<script>
+    function htmlFn() {
+        alert("这是一个HTML事件处理,this:"+this);
+    }
+
+    function dom2Fn() {
+        alert("这是一个DOM2级事件处理,this.id="+this.id);
+    }
+
+    function handler() {
+        alert("这是一个IE事件处理程序");
+    }
+
+    function eventUtil() {
+        var eventUtil = {
+            addHandler: function (element, type, handler) {
+                if (element.addEventListener) {
+                    element.addEventListener(type, handler, false);
+                } else if (element.attachEvent) {
+                    element.attachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = handler;
+                }
+            },
+            removeHandler: function (element, type, handler) {
+                if (element.removeEventListener) {
+                    element.removeEventListener(type, handler, false);
+                } else if (element.detachEvent) {
+                    element.detachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = null;
+                }
+            }
+        };
+        var handler = function(){
+            alert("Clicked");
+        };
+        //指定
+        EventUtil.addHandler(btn,"click",handler);
+        //移除事件处理程序
+        EventUtil.removeHandler(btn,"click",handler);
+
+        //注意 以上的addHandler()和removeHandler()没有考虑到所有的浏览器问题，例如IE中的作用域问题
+        //不过，使用它们添加和移除事件处理程序还是足够了。此外还要注意，DOM0级对每个事件支持一个事件处理程序。
+        //好在，只支持DOM0级的浏览器已经没那么多了。
+    }
+
+   window.onload=function () {
+       document.getElementById("dom0").onclick=function () {
+           alert("这是一个DOM0级事件处理");
+       };
+
+       document.getElementById("removeDom0").onclick = function () {
+           document.getElementById("dom0").onclick=null;
+       };
+
+       document.getElementById("dom2").addEventListener("click",dom2Fn);
+
+       document.getElementById("removeDom2").addEventListener("click",function () {
+           document.getElementById("dom2").removeEventListener("click",dom2Fn)
+       });
+
+
+        var btn=document.getElementById("IE");
+       //添加事件处理程序
+       btn.attachEvent("onclick",handler);
+       //取消事件处理程序
+       //取消参数必须与添加完全相同，所以事件处理程序函数(同DOM2级事件中的分析一样)不要是匿名函数。
+       btn.detachEvent("onclick",handler);
+
+
+
+   }
+
+</script>
+<body>
+<button onclick=htmlFn()>这是一个HTML事件处理</button>
+<button id="dom0">这是一个DOM0级事件处理</button>
+<button id="removeDom0">移除DOM0绑定的函数</button>
+<button id="dom2">这是一个DOM2级事件处理</button>
+<button id="removeDom2">移除DOM2绑定的函数</button>
+<button id="IE">IE事件处理</button>
+<button onclick="eventUtil()">
+     跨浏览器事件处理程序
+</button>
+</body>
+</html>
